@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/employees")
@@ -28,6 +29,18 @@ public class EmployeeController {
     @GetMapping("/employees-list")
     public List<Employee> getAllEmployees(){
         return employeeDAO.findAll();
+    }
+
+    //http://localhost:8080/api/v1/employees/get-employee/1
+    @GetMapping("get-employee/{id}")
+    public  Employee getEmployeeById(@PathVariable Long id){
+        Optional<Employee> employee = employeeDAO.findById(id);
+        if (employee.isPresent()){
+            return employee.get();
+        }
+        else {
+            throw new RuntimeException("Employee not found with id "+id);
+        }
     }
 
 }
