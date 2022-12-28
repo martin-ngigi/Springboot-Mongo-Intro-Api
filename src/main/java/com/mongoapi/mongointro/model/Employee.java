@@ -3,7 +3,7 @@ package com.mongoapi.mongointro.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "employees")
+@Document(collection = "employee")
 public class Employee {
     public static final String  SEQUENCE_NAME="employees_sequence";
 
