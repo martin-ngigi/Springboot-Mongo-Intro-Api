@@ -43,7 +43,7 @@ public class EmployeeController {
         }
     }
 
-    //http://localhost:8080/api/v1/employees/update-employee
+    //http://localhost:8080/api/v1/employees/update-employee/1
     @PutMapping("/update-employee/{id}")
     public  Employee updateEmployee(@RequestBody Employee employee, @PathVariable ("id") Long id){
         //validate data
@@ -63,6 +63,18 @@ public class EmployeeController {
         employeeFromDb.setDob(dob);
 
         return employeeDAO.save(employeeFromDb);
+    }
+
+    @DeleteMapping("delete-employee/{id}")
+    public String deleteEmployee(@PathVariable("id") Long id){
+        Optional<Employee> employee = employeeDAO.findById(id);
+        if (employee.isPresent()){
+            employeeDAO.deleteById(id);
+            return "Employee deleted with id "+id;
+        }
+        else {
+            throw new RuntimeException("Employee not found with id "+id);
+        }
     }
 
 }
