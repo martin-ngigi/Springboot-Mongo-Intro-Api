@@ -43,4 +43,26 @@ public class EmployeeController {
         }
     }
 
+    //http://localhost:8080/api/v1/employees/update-employee
+    @PutMapping("/update-employee/{id}")
+    public  Employee updateEmployee(@RequestBody Employee employee, @PathVariable ("id") Long id){
+        //validate data
+        Employee employeeFromDb = employeeDAO.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Error: employee with id "+id+" does not exist."));
+
+        //get data from request
+        String name = employee.getName();
+        String gender = employee.getGender();
+        String country = employee.getCountry();
+        String dob = employee.getDob();
+
+        //set data
+        employeeFromDb.setName(name);
+        employeeFromDb.setGender(gender);
+        employeeFromDb.setCountry(country);
+        employeeFromDb.setDob(dob);
+
+        return employeeDAO.save(employeeFromDb);
+    }
+
 }
